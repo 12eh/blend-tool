@@ -3,7 +3,7 @@ import { useState, type ReactElement } from "react";
 type Props = {
   id: string;
   label: string;
-  values: string[];
+  values: string[] | readonly string[];
   onChange: (newValue: string) => void;
   min?: number;
   max?: number;

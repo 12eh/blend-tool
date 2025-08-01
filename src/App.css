@@ -10,9 +10,11 @@
   height: 100%;
   display: grid;
   grid-template-rows: [form] auto [results] 1fr;
+  gap: 8px;
 }
 
 #main-form {
+  grid-row: form;
   display: grid;
   grid-template-columns: [label] auto [input] auto 1fr;
   gap: 8px;
@@ -26,4 +28,8 @@
 #main-form input {
   grid-column: input;
   align-self: start;
+}
+
+#results {
+  grid-row: results;
 }
