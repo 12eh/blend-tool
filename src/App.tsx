@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import { Dropdown } from "./Dropdown";
 import { NumericInput } from "./NumericInput";
-import { TriaxialBlend } from "./TriaxialBlend";
+import { TriaxialBlend, TriaxialBlendForm } from "./TriaxialBlend";
 
 const BLEND_TYPES = [
   "triaxial",
@@ -16,6 +16,9 @@ type BlendType = (typeof BLEND_TYPES)[number];
 function App() {
   const [resolution, setResolution] = useState(3);
   const [blendType, setBlendType] = useState<BlendType>(BLEND_TYPES[0]);
+  const [conditionalFormValues, setConditionalFormValues] = useState<{
+    [k: string]: number | string;
+  }>({});
   return (
     <div id="main-container">
       <div id="main-grid">
@@ -41,8 +44,17 @@ function App() {
             min={2}
             onChange={setResolution}
           />
+          <hr />
+          {blendType == "triaxial" && (
+            <TriaxialBlendForm onChange={setConditionalFormValues} />
+          )}
         </form>
-        {blendType == "triaxial" && <TriaxialBlend resolution={resolution} />}
+        {blendType == "triaxial" && (
+          <TriaxialBlend
+            resolution={resolution}
+            formValues={conditionalFormValues}
+          />
+        )}
       </div>
     </div>
   );
