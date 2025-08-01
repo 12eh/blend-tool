@@ -14,7 +14,7 @@ const BLEND_TYPES = [
 type BlendType = (typeof BLEND_TYPES)[number];
 
 function App() {
-  const [resolution, setResolution] = useState(3);
+  const [resolution, setResolution] = useState(4);
   const [blendType, setBlendType] = useState<BlendType>(BLEND_TYPES[0]);
   const [conditionalFormValues, setConditionalFormValues] = useState<{
     [k: string]: number | string;

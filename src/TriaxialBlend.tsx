@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactElement } from "react";
 import "./TriaxialBlend.css";
 import { NumericInput } from "./NumericInput";
 import { TextInput } from "./TextInput";
+import { parseColor, scale, sum, toCSS } from "./utils";
 
 const defaultFormValues = {
   minA: 0,
@@ -10,6 +11,9 @@ const defaultFormValues = {
   labelA: "A",
   labelB: "B",
   labelC: "C",
+  colorA: "00ffff",
+  colorB: "ff00ff",
+  colorC: "ffff00",
 };
 type FormValues = typeof defaultFormValues;
 type FormProps = {
@@ -32,6 +36,12 @@ export function TriaxialBlendForm(props: FormProps): ReactElement<FormProps> {
           defaultValue={values.labelA}
           onChange={(v) => setValues({ ...values, labelA: v })}
         />
+        <TextInput
+          id="color-a"
+          label="Color"
+          defaultValue={values.colorA}
+          onChange={(v) => setValues({ ...values, colorA: v })}
+        />
         <NumericInput
           id="min-a"
           label="Minimum %"
@@ -48,6 +58,12 @@ export function TriaxialBlendForm(props: FormProps): ReactElement<FormProps> {
           defaultValue={values.labelB}
           onChange={(v) => setValues({ ...values, labelB: v })}
         />
+        <TextInput
+          id="color-b"
+          label="Color"
+          defaultValue={values.colorB}
+          onChange={(v) => setValues({ ...values, colorB: v })}
+        />
         <NumericInput
           id="min-b"
           label="Minimum %"
@@ -59,10 +75,16 @@ export function TriaxialBlendForm(props: FormProps): ReactElement<FormProps> {
       <div className="column-three form-area">
         <h1>Ingredient C</h1>
         <TextInput
-          id="label-a"
+          id="label-c"
           label="Label"
           defaultValue={values.labelC}
           onChange={(v) => setValues({ ...values, labelC: v })}
+        />
+        <TextInput
+          id="color-c"
+          label="Color"
+          defaultValue={values.colorC}
+          onChange={(v) => setValues({ ...values, colorC: v })}
         />
         <NumericInput
           id="min-c"
@@ -122,6 +144,37 @@ export function TriaxialBlend(props: ResultsProps): ReactElement<ResultsProps> {
       {formValues.labelA}: {formValues.minA}% - {maxA}%<br />
       {formValues.labelB}: {formValues.minB}% - {maxB}%<br />
       {formValues.labelC}: {formValues.minC}% - {maxC}%<br />
+      <h1>Visualization</h1>
+      <div
+        id="triaxial-visualization"
+        style={{
+          height: `${75 * resolution}px`,
+          width: `${100 * resolution}px`,
+        }}
+      >
+        {samples.map((s) => {
+          const color = sum(
+            scale(parseColor(formValues.colorA), s.percentA / 100),
+            scale(parseColor(formValues.colorB), s.percentB / 100),
+            scale(parseColor(formValues.colorC), s.percentC / 100)
+          );
+          return (
+            <div
+              className="sample"
+              style={{
+                left: `${(50 * (resolution - 1 - s.i + s.j)) / resolution}%`,
+                top: `${((s.i + s.j) * 100) / resolution}%`,
+                background: toCSS(color),
+              }}
+            >
+              #{s.id}
+              <br />
+              {Math.round(s.percentA)}/{Math.round(s.percentB)}/
+              {Math.round(s.percentC)}
+            </div>
+          );
+        })}
+      </div>
       <h1>Table</h1>
       <table>
         <thead>
@@ -141,29 +194,6 @@ export function TriaxialBlend(props: ResultsProps): ReactElement<ResultsProps> {
           ))}
         </tbody>
       </table>
-      <h1>Visualization</h1>
-      <div
-        id="triaxial-visualization"
-        style={{
-          height: `${100 * resolution}px`,
-          width: `${100 * resolution}px`,
-        }}
-      >
-        {samples.map((s) => (
-          <div
-            className="sample"
-            style={{
-              left: `${(50 * (resolution - 1 - s.i + s.j)) / resolution}%`,
-              top: `${((s.i + s.j) * 100) / resolution}%`,
-            }}
-          >
-            #{s.id}
-            <br />
-            {Math.round(s.percentA)}/{Math.round(s.percentB)}/
-            {Math.round(s.percentC)}
-          </div>
-        ))}
-      </div>
     </>
   );
 }
