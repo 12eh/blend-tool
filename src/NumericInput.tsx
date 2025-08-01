@@ -15,7 +15,7 @@ export function NumericInput(props: Props): ReactElement<Props> {
   const [value, setValue] = useState(defaultValue);
 
   return (
-    <div className="form-group">
+    <>
       <label htmlFor={id}>{label}</label>
       <input
         type="number"
@@ -30,6 +30,6 @@ export function NumericInput(props: Props): ReactElement<Props> {
           onChange(newValue);
         }}
       />
-    </div>
+    </>
   );
 }

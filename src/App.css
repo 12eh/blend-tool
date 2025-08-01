@@ -1,4 +1,29 @@
 #main-container {
-  display: grid;
+  font-family: sans-serif;
+  height: calc(100% - 16px);
+  padding: 8px;
+  max-width: 1080px;
+  margin: auto;
+}
+
+#main-grid {
   height: 100%;
+  display: grid;
+  grid-template-rows: [form] auto [results] 1fr;
+}
+
+#main-form {
+  display: grid;
+  grid-template-columns: [label] auto [input] auto 1fr;
+  gap: 8px;
+}
+
+#main-form label {
+  grid-column: label;
+  align-self: start;
+}
+
+#main-form input {
+  grid-column: input;
+  align-self: start;
 }
