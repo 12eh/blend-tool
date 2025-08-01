@@ -1,11 +1,15 @@
 import { useEffect, useState, type ReactElement } from "react";
 import "./TriaxialBlend.css";
 import { NumericInput } from "./NumericInput";
+import { TextInput } from "./TextInput";
 
 const defaultFormValues = {
   minA: 0,
   minB: 0,
   minC: 0,
+  labelA: "A",
+  labelB: "B",
+  labelC: "C",
 };
 type FormValues = typeof defaultFormValues;
 type FormProps = {
@@ -22,6 +26,12 @@ export function TriaxialBlendForm(props: FormProps): ReactElement<FormProps> {
     <div className="three-column">
       <div className="column-one form-area">
         <h1>Ingredient A</h1>
+        <TextInput
+          id="label-a"
+          label="Label"
+          defaultValue={values.labelA}
+          onChange={(v) => setValues({ ...values, labelA: v })}
+        />
         <NumericInput
           id="min-a"
           label="Minimum %"
@@ -32,6 +42,12 @@ export function TriaxialBlendForm(props: FormProps): ReactElement<FormProps> {
       </div>
       <div className="column-two form-area">
         <h1>Ingredient B</h1>
+        <TextInput
+          id="label-b"
+          label="Label"
+          defaultValue={values.labelB}
+          onChange={(v) => setValues({ ...values, labelB: v })}
+        />
         <NumericInput
           id="min-b"
           label="Minimum %"
@@ -42,6 +58,12 @@ export function TriaxialBlendForm(props: FormProps): ReactElement<FormProps> {
       </div>
       <div className="column-three form-area">
         <h1>Ingredient C</h1>
+        <TextInput
+          id="label-a"
+          label="Label"
+          defaultValue={values.labelC}
+          onChange={(v) => setValues({ ...values, labelC: v })}
+        />
         <NumericInput
           id="min-c"
           label="Minimum %"
@@ -97,16 +119,16 @@ export function TriaxialBlend(props: ResultsProps): ReactElement<ResultsProps> {
   return (
     <>
       <h1>Ranges</h1>
-      A: {formValues.minA}% - {maxA}%<br />
-      B: {formValues.minB}% - {maxB}%<br />
-      C: {formValues.minC}% - {maxC}%<br />
+      {formValues.labelA}: {formValues.minA}% - {maxA}%<br />
+      {formValues.labelB}: {formValues.minB}% - {maxB}%<br />
+      {formValues.labelC}: {formValues.minC}% - {maxC}%<br />
       <h1>Table</h1>
       <table>
         <thead>
           <th>Sample #</th>
-          <th>A%</th>
-          <th>B%</th>
-          <th>C%</th>
+          <th>% {formValues.labelA}</th>
+          <th>% {formValues.labelB}</th>
+          <th>% {formValues.labelC}</th>
         </thead>
         <tbody>
           {samples.map((s) => (
