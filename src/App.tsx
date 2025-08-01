@@ -1,4 +1,5 @@
 import "./App.css";
+import { Dropdown } from "./Dropdown";
 import { NumericInput } from "./NumericInput";
 
 function App() {
@@ -13,16 +14,24 @@ function App() {
             }
           }}
         >
+          <Dropdown
+            id="type"
+            label="Type"
+            values={[
+              "triaxial",
+              "quadraxial",
+              "tetrahedral",
+              "bilinear",
+              "trilinear",
+            ]}
+            onChange={console.log}
+          />
           <NumericInput
             id="resolution"
             label="Resolution"
             defaultValue={3}
-            onChange={console.log}
-          />
-          <NumericInput
-            id="asdf"
-            label="asdf"
-            defaultValue={0}
+            step={1}
+            min={2}
             onChange={console.log}
           />
         </form>
