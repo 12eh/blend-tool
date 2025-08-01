@@ -10,7 +10,6 @@
   height: 100%;
   display: grid;
   grid-template-rows: [form] auto [results] 1fr;
-  gap: 8px;
 }
 
 #main-form {
@@ -19,6 +18,10 @@
 
 #results {
   grid-row: results;
+}
+
+#results > hr {
+  margin: 16px 0;
 }
 
 .form-area {

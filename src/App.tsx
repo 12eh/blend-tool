@@ -50,12 +50,15 @@ function App() {
             <TriaxialBlendForm onChange={setConditionalFormValues} />
           )}
         </form>
-        {blendType == "triaxial" && (
-          <TriaxialBlend
-            resolution={resolution}
-            formValues={conditionalFormValues}
-          />
-        )}
+        <div id="results">
+          <hr />
+          {blendType == "triaxial" && (
+            <TriaxialBlend
+              resolution={resolution}
+              formValues={conditionalFormValues}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

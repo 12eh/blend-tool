@@ -62,5 +62,5 @@ type ResultsProps = {
 export function TriaxialBlend(props: ResultsProps): ReactElement<ResultsProps> {
   const formValues = { ...defaultFormValues, ...props.formValues };
 
-  return <div id="results">{JSON.stringify(formValues)}</div>;
+  return <>{JSON.stringify(formValues)}</>;
 }
