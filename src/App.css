@@ -6,6 +6,10 @@
   margin: auto;
 }
 
+#main-container h1 {
+  font-size: 20px;
+}
+
 #main-grid {
   height: 100%;
   display: grid;
@@ -45,8 +49,7 @@
   width: 100%;
 }
 
-.form-area > p,
-.form-area > b {
+.form-area > h1 {
   grid-column: 1 / 4;
   margin: 0;
   margin-bottom: 8px;

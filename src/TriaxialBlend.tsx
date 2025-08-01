@@ -21,7 +21,7 @@ export function TriaxialBlendForm(props: FormProps): ReactElement<FormProps> {
   return (
     <div className="three-column">
       <div className="column-one form-area">
-        <b>Ingredient A</b>
+        <h1>Ingredient A</h1>
         <NumericInput
           id="min-a"
           label="Min%"
@@ -31,7 +31,7 @@ export function TriaxialBlendForm(props: FormProps): ReactElement<FormProps> {
         />
       </div>
       <div className="column-two form-area">
-        <b>Ingredient B</b>
+        <h1>Ingredient B</h1>
         <NumericInput
           id="min-b"
           label="Min%"
@@ -41,7 +41,7 @@ export function TriaxialBlendForm(props: FormProps): ReactElement<FormProps> {
         />
       </div>
       <div className="column-three form-area">
-        <b>Ingredient C</b>
+        <h1>Ingredient C</h1>
         <NumericInput
           id="min-c"
           label="Min%"
@@ -61,6 +61,18 @@ type ResultsProps = {
 
 export function TriaxialBlend(props: ResultsProps): ReactElement<ResultsProps> {
   const formValues = { ...defaultFormValues, ...props.formValues };
+  const { minA, minB, minC } = formValues;
 
-  return <>{JSON.stringify(formValues)}</>;
+  const maxA = 100 - minB - minC;
+  const maxB = 100 - minA - minC;
+  const maxC = 100 - minA - minB;
+
+  return (
+    <>
+      <h1>Ranges</h1>
+      A: {formValues.minA}% - {maxA}%<br />
+      B: {formValues.minB}% - {maxB}%<br />
+      C: {formValues.minC}% - {maxC}%<br />
+    </>
+  );
 }
