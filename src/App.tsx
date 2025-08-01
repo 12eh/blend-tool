@@ -2,6 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import { Dropdown } from "./Dropdown";
 import { NumericInput } from "./NumericInput";
+import { TriaxialBlend } from "./TriaxialBlend";
 
 const BLEND_TYPES = [
   "triaxial",
@@ -13,6 +14,7 @@ const BLEND_TYPES = [
 type BlendType = (typeof BLEND_TYPES)[number];
 
 function App() {
+  const [resolution, setResolution] = useState(3);
   const [blendType, setBlendType] = useState<BlendType>(BLEND_TYPES[0]);
   return (
     <div id="main-container">
@@ -34,13 +36,13 @@ function App() {
           <NumericInput
             id="resolution"
             label="Resolution"
-            defaultValue={3}
+            defaultValue={resolution}
             step={1}
             min={2}
-            onChange={console.log}
+            onChange={setResolution}
           />
         </form>
-        <div id="results">{blendType == "triaxial" && <>Δ</>}</div>
+        {blendType == "triaxial" && <TriaxialBlend resolution={resolution} />}
       </div>
     </div>
   );
