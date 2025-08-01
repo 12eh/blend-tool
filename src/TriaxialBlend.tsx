@@ -59,6 +59,15 @@ type ResultsProps = {
   formValues: Partial<FormValues>;
 };
 
+type Sample = {
+  id: number;
+  percentA: number;
+  percentB: number;
+  percentC: number;
+  i: number;
+  j: number;
+};
+
 export function TriaxialBlend(props: ResultsProps): ReactElement<ResultsProps> {
   const { resolution } = props;
   const formValues = { ...defaultFormValues, ...props.formValues };
@@ -68,17 +77,20 @@ export function TriaxialBlend(props: ResultsProps): ReactElement<ResultsProps> {
   const maxB = 100 - minA - minC;
   const maxC = 100 - minA - minB;
 
-  const samples: Array<[number, number, number, number]> = [];
-  let sampleNum = 1;
+  const samples: Array<Sample> = [];
+  let sampleId = 1;
   for (let i = 0; i < resolution; i++) {
     for (let j = 0; j < resolution; j++) {
       if (i + j > resolution - 1) continue;
-      samples.push([
-        sampleNum++,
-        minA + ((maxA - minA) * (resolution - i - j - 1)) / (resolution - 1),
-        minB + ((maxB - minB) * j) / (resolution - 1),
-        minC + ((maxC - minC) * i) / (resolution - 1),
-      ]);
+      samples.push({
+        id: sampleId++,
+        percentA:
+          minA + ((maxA - minA) * (resolution - i - j - 1)) / (resolution - 1),
+        percentB: minB + ((maxB - minB) * j) / (resolution - 1),
+        percentC: minC + ((maxC - minC) * i) / (resolution - 1),
+        i,
+        j,
+      });
     }
   }
 
@@ -98,14 +110,38 @@ export function TriaxialBlend(props: ResultsProps): ReactElement<ResultsProps> {
         </thead>
         <tbody>
           {samples.map((s) => (
-            <tr key={s[0]}>
-              {s.map((d, i) => (
-                <td key={i}>{Math.round(d * 100) / 100}</td>
-              ))}
+            <tr key={s.id}>
+              <td>{s.id}</td>
+              <td>{Math.round(s.percentA * 100) / 100}</td>
+              <td>{Math.round(s.percentB * 100) / 100}</td>
+              <td>{Math.round(s.percentC * 100) / 100}</td>
             </tr>
           ))}
         </tbody>
       </table>
+      <h1>Visualization</h1>
+      <div
+        id="triaxial-visualization"
+        style={{
+          height: `${100 * resolution}px`,
+          width: `${100 * resolution}px`,
+        }}
+      >
+        {samples.map((s) => (
+          <div
+            className="sample"
+            style={{
+              left: `${(50 * (resolution - 1 - s.i + s.j)) / resolution}%`,
+              top: `${((s.i + s.j) * 100) / resolution}%`,
+            }}
+          >
+            #{s.id}
+            <br />
+            {Math.round(s.percentA)}/{Math.round(s.percentB)}/
+            {Math.round(s.percentC)}
+          </div>
+        ))}
+      </div>
     </>
   );
 }

@@ -16,3 +16,16 @@
 .three-column > .column-three {
   grid-column: three;
 }
+
+#triaxial-visualization {
+  position: relative;
+}
+
+.sample {
+  border: 1px solid;
+  border-radius: 8px;
+  display: inline-block;
+  padding: 8px;
+  width: 64px;
+  position: absolute;
+}
