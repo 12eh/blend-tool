@@ -1,0 +1,18 @@
+.three-column {
+  grid-column: 1 / 4;
+  display: grid;
+  grid-template-columns: [one] 1fr [two] 1fr [three] 1fr;
+  gap: 8px;
+}
+
+.three-column > .column-one {
+  grid-column: one;
+}
+
+.three-column > .column-two {
+  grid-column: two;
+}
+
+.three-column > .column-three {
+  grid-column: three;
+}

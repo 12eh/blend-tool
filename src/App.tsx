@@ -24,6 +24,7 @@ function App() {
       <div id="main-grid">
         <form
           id="main-form"
+          className="form-area"
           onKeyDown={(e) => {
             if (e.key == "Enter") {
               e.preventDefault();
