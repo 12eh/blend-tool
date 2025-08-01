@@ -24,7 +24,7 @@ export function TriaxialBlendForm(props: FormProps): ReactElement<FormProps> {
         <h1>Ingredient A</h1>
         <NumericInput
           id="min-a"
-          label="Min%"
+          label="Minimum %"
           defaultValue={values.minA}
           min={0}
           onChange={(v) => setValues({ ...values, minA: v })}
@@ -34,7 +34,7 @@ export function TriaxialBlendForm(props: FormProps): ReactElement<FormProps> {
         <h1>Ingredient B</h1>
         <NumericInput
           id="min-b"
-          label="Min%"
+          label="Minimum %"
           defaultValue={values.minB}
           min={0}
           onChange={(v) => setValues({ ...values, minB: v })}
@@ -44,7 +44,7 @@ export function TriaxialBlendForm(props: FormProps): ReactElement<FormProps> {
         <h1>Ingredient C</h1>
         <NumericInput
           id="min-c"
-          label="Min%"
+          label="Minimum %"
           defaultValue={values.minC}
           min={0}
           onChange={(v) => setValues({ ...values, minC: v })}
@@ -60,6 +60,7 @@ type ResultsProps = {
 };
 
 export function TriaxialBlend(props: ResultsProps): ReactElement<ResultsProps> {
+  const { resolution } = props;
   const formValues = { ...defaultFormValues, ...props.formValues };
   const { minA, minB, minC } = formValues;
 
@@ -67,12 +68,44 @@ export function TriaxialBlend(props: ResultsProps): ReactElement<ResultsProps> {
   const maxB = 100 - minA - minC;
   const maxC = 100 - minA - minB;
 
+  const samples: Array<[number, number, number, number]> = [];
+  let sampleNum = 1;
+  for (let i = 0; i < resolution; i++) {
+    for (let j = 0; j < resolution; j++) {
+      if (i + j > resolution - 1) continue;
+      samples.push([
+        sampleNum++,
+        minA + ((maxA - minA) * (resolution - i - j - 1)) / (resolution - 1),
+        minB + ((maxB - minB) * j) / (resolution - 1),
+        minC + ((maxC - minC) * i) / (resolution - 1),
+      ]);
+    }
+  }
+
   return (
     <>
       <h1>Ranges</h1>
       A: {formValues.minA}% - {maxA}%<br />
       B: {formValues.minB}% - {maxB}%<br />
       C: {formValues.minC}% - {maxC}%<br />
+      <h1>Table</h1>
+      <table>
+        <thead>
+          <th>Sample #</th>
+          <th>A%</th>
+          <th>B%</th>
+          <th>C%</th>
+        </thead>
+        <tbody>
+          {samples.map((s) => (
+            <tr key={s[0]}>
+              {s.map((d, i) => (
+                <td key={i}>{Math.round(d * 100) / 100}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 }
