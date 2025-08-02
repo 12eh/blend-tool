@@ -154,19 +154,24 @@ export function QuadraxialBlend(
   let sampleId = 1;
   for (let i = 0; i < resolution; i++) {
     for (let j = 0; j < resolution; j++) {
+      const a =
+        minA +
+        ((maxA - minA) * Math.min(resolution - 1 - i, resolution - 1 - j)) /
+          (resolution - 1);
+      const b =
+        minB +
+        ((maxB - minB) * Math.min(i, resolution - 1 - j)) / (resolution - 1);
+      const c = minC + ((maxC - minC) * Math.min(i, j)) / (resolution - 1);
+      const d =
+        minD +
+        ((maxD - minD) * Math.min(resolution - 1 - i, j)) / (resolution - 1);
+      const t = a + b + c + d;
       samples.push({
         id: sampleId++,
-        percentA:
-          minA +
-          ((maxA - minA) * Math.min(resolution - 1 - i, resolution - 1 - j)) /
-            (resolution - 1),
-        percentB:
-          minB +
-          ((maxB - minB) * Math.min(i, resolution - 1 - j)) / (resolution - 1),
-        percentC: minC + ((maxC - minC) * Math.min(i, j)) / (resolution - 1),
-        percentD:
-          minD +
-          ((maxD - minD) * Math.min(resolution - 1 - i, j)) / (resolution - 1),
+        percentA: (100 * a) / t,
+        percentB: (100 * b) / t,
+        percentC: (100 * c) / t,
+        percentD: (100 * d) / t,
         i,
         j,
       });
