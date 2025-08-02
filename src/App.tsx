@@ -3,6 +3,7 @@ import "./App.css";
 import { Dropdown } from "./Dropdown";
 import { NumericInput } from "./NumericInput";
 import { TriaxialBlend, TriaxialBlendForm } from "./TriaxialBlend";
+import { QuadraxialBlend, QuadraxialBlendForm } from "./QuadraxialBlend";
 
 const BLEND_TYPES = [
   "triaxial",
@@ -49,11 +50,20 @@ function App() {
           {blendType == "triaxial" && (
             <TriaxialBlendForm onChange={setConditionalFormValues} />
           )}
+          {blendType == "quadraxial" && (
+            <QuadraxialBlendForm onChange={setConditionalFormValues} />
+          )}
         </form>
         <hr />
         <div id="results">
           {blendType == "triaxial" && (
             <TriaxialBlend
+              resolution={resolution}
+              formValues={conditionalFormValues}
+            />
+          )}
+          {blendType == "quadraxial" && (
+            <QuadraxialBlend
               resolution={resolution}
               formValues={conditionalFormValues}
             />

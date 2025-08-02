@@ -65,3 +65,14 @@
   margin: 0;
   margin-bottom: 8px;
 }
+
+.sample {
+  border: 1px solid #000;
+  border-radius: 8px;
+  display: inline-block;
+  padding: 8px;
+  width: 72px;
+  color: #fff;
+  font-weight: 900;
+  -webkit-text-stroke: 1px #000;
+}
