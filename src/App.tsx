@@ -4,14 +4,9 @@ import { Dropdown } from "./Dropdown";
 import { NumericInput } from "./NumericInput";
 import { TriaxialBlend, TriaxialBlendForm } from "./TriaxialBlend";
 import { QuadraxialBlend, QuadraxialBlendForm } from "./QuadraxialBlend";
+import { TetrahedralBlend, TetrahedralBlendForm } from "./TetrahedralBlend";
 
-const BLEND_TYPES = [
-  "triaxial",
-  "quadraxial",
-  "tetrahedral",
-  "bilinear",
-  "trilinear",
-] as const;
+const BLEND_TYPES = ["triaxial", "quadraxial", "tetrahedral"] as const;
 type BlendType = (typeof BLEND_TYPES)[number];
 
 function App() {
@@ -53,6 +48,9 @@ function App() {
           {blendType == "quadraxial" && (
             <QuadraxialBlendForm onChange={setConditionalFormValues} />
           )}
+          {blendType == "tetrahedral" && (
+            <TetrahedralBlendForm onChange={setConditionalFormValues} />
+          )}
         </form>
         <hr />
         <div id="results">
@@ -64,6 +62,12 @@ function App() {
           )}
           {blendType == "quadraxial" && (
             <QuadraxialBlend
+              resolution={resolution}
+              formValues={conditionalFormValues}
+            />
+          )}
+          {blendType == "tetrahedral" && (
+            <TetrahedralBlend
               resolution={resolution}
               formValues={conditionalFormValues}
             />
