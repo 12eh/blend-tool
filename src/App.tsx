@@ -5,8 +5,14 @@ import { NumericInput } from "./NumericInput";
 import { TriaxialBlend, TriaxialBlendForm } from "./TriaxialBlend";
 import { QuadraxialBlend, QuadraxialBlendForm } from "./QuadraxialBlend";
 import { TetrahedralBlend, TetrahedralBlendForm } from "./TetrahedralBlend";
+import { BilinearBlend, BilinearBlendForm } from "./BilinearBlend";
 
-const BLEND_TYPES = ["triaxial", "quadraxial", "tetrahedral"] as const;
+const BLEND_TYPES = [
+  "triaxial",
+  "tetrahedral",
+  "bilinear",
+  "quadraxial",
+] as const;
 type BlendType = (typeof BLEND_TYPES)[number];
 
 function App() {
@@ -45,11 +51,14 @@ function App() {
           {blendType == "triaxial" && (
             <TriaxialBlendForm onChange={setConditionalFormValues} />
           )}
-          {blendType == "quadraxial" && (
-            <QuadraxialBlendForm onChange={setConditionalFormValues} />
-          )}
           {blendType == "tetrahedral" && (
             <TetrahedralBlendForm onChange={setConditionalFormValues} />
+          )}
+          {blendType == "bilinear" && (
+            <BilinearBlendForm onChange={setConditionalFormValues} />
+          )}
+          {blendType == "quadraxial" && (
+            <QuadraxialBlendForm onChange={setConditionalFormValues} />
           )}
         </form>
         <hr />
@@ -60,14 +69,20 @@ function App() {
               formValues={conditionalFormValues}
             />
           )}
-          {blendType == "quadraxial" && (
-            <QuadraxialBlend
+          {blendType == "tetrahedral" && (
+            <TetrahedralBlend
               resolution={resolution}
               formValues={conditionalFormValues}
             />
           )}
-          {blendType == "tetrahedral" && (
-            <TetrahedralBlend
+          {blendType == "bilinear" && (
+            <BilinearBlend
+              resolution={resolution}
+              formValues={conditionalFormValues}
+            />
+          )}
+          {blendType == "quadraxial" && (
+            <QuadraxialBlend
               resolution={resolution}
               formValues={conditionalFormValues}
             />

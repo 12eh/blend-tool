@@ -1,0 +1,8 @@
+#bilinear-visualization {
+  position: relative;
+}
+
+#bilinear-visualization .sample {
+  position: absolute;
+  width: 96px;
+}
