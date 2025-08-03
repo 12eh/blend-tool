@@ -1,8 +1,8 @@
 import { useEffect, useState, type ReactElement } from "react";
 import "./BilinearBlend.css";
 import { NumericInput } from "./NumericInput";
-import { TextInput } from "./TextInput";
 import { parseColor, scale, sum, toCSS } from "./utils";
+import { IngredientForm } from "./IngredientForm";
 
 const defaultFormValues = {
   percentAB: 50,
@@ -10,10 +10,10 @@ const defaultFormValues = {
   minB: 0,
   minC: 0,
   minD: 0,
-  labelA: "A",
-  labelB: "B",
-  labelC: "C",
-  labelD: "D",
+  labelA: "Ingredient A",
+  labelB: "Ingredient B",
+  labelC: "Ingredient C",
+  labelD: "Ingredient D",
   colorA: "00ffff",
   colorB: "ff00ff",
   colorC: "ffff00",
@@ -40,91 +40,31 @@ export function BilinearBlendForm(props: FormProps): ReactElement<FormProps> {
       />
       <div className="four-column">
         <div className="column-one form-area">
-          <h1>Ingredient A</h1>
-          <TextInput
-            id="label-a"
-            label="Label"
-            defaultValue={values.labelA}
-            onChange={(v) => setValues({ ...values, labelA: v })}
-          />
-          <TextInput
-            id="color-a"
-            label="Color"
-            defaultValue={values.colorA}
-            onChange={(v) => setValues({ ...values, colorA: v })}
-          />
-          <NumericInput
-            id="min-a"
-            label="Minimum %"
-            defaultValue={values.minA}
-            min={0}
-            onChange={(v) => setValues({ ...values, minA: v })}
+          <IngredientForm
+            id="A"
+            defaultColor="00ffff"
+            onChange={(v) => setValues({ ...values, ...v })}
           />
         </div>
         <div className="column-two form-area">
-          <h1>Ingredient B</h1>
-          <TextInput
-            id="label-b"
-            label="Label"
-            defaultValue={values.labelB}
-            onChange={(v) => setValues({ ...values, labelB: v })}
-          />
-          <TextInput
-            id="color-b"
-            label="Color"
-            defaultValue={values.colorB}
-            onChange={(v) => setValues({ ...values, colorB: v })}
-          />
-          <NumericInput
-            id="min-b"
-            label="Minimum %"
-            defaultValue={values.minB}
-            min={0}
-            onChange={(v) => setValues({ ...values, minB: v })}
+          <IngredientForm
+            id="B"
+            defaultColor="ff00ff"
+            onChange={(v) => setValues({ ...values, ...v })}
           />
         </div>
         <div className="column-three form-area">
-          <h1>Ingredient C</h1>
-          <TextInput
-            id="label-c"
-            label="Label"
-            defaultValue={values.labelC}
-            onChange={(v) => setValues({ ...values, labelC: v })}
-          />
-          <TextInput
-            id="color-c"
-            label="Color"
-            defaultValue={values.colorC}
-            onChange={(v) => setValues({ ...values, colorC: v })}
-          />
-          <NumericInput
-            id="min-c"
-            label="Minimum %"
-            defaultValue={values.minC}
-            min={0}
-            onChange={(v) => setValues({ ...values, minC: v })}
+          <IngredientForm
+            id="C"
+            defaultColor="ffff00"
+            onChange={(v) => setValues({ ...values, ...v })}
           />
         </div>
         <div className="column-four form-area">
-          <h1>Ingredient D</h1>
-          <TextInput
-            id="label-d"
-            label="Label"
-            defaultValue={values.labelD}
-            onChange={(v) => setValues({ ...values, labelD: v })}
-          />
-          <TextInput
-            id="color-d"
-            label="Color"
-            defaultValue={values.colorD}
-            onChange={(v) => setValues({ ...values, colorD: v })}
-          />
-          <NumericInput
-            id="min-d"
-            label="Minimum %"
-            defaultValue={values.minD}
-            min={0}
-            onChange={(v) => setValues({ ...values, minD: v })}
+          <IngredientForm
+            id="D"
+            defaultColor="000000"
+            onChange={(v) => setValues({ ...values, ...v })}
           />
         </div>
       </div>
