@@ -41,7 +41,7 @@ export function IngredientForm(props: Props): ReactElement<Props> {
       />
       <NumericInput
         id={minKey}
-        label="Minimum %"
+        label="Min %"
         defaultValue={values[minKey] as number}
         min={0}
         onChange={(v) => setValues({ ...values, [minKey]: v })}

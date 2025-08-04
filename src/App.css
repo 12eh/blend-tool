@@ -59,10 +59,12 @@
   border: 0;
   border-top: 1px solid;
 }
-
+.form-area > p,
 .form-area > h1 {
   grid-column: 1 / 4;
   margin: 0;
+}
+.form-area > h1 {
   margin-bottom: 8px;
 }
 
