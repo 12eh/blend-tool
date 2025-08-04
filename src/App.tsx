@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import { Dropdown } from "./Dropdown";
 import { NumericInput } from "./NumericInput";
@@ -14,13 +14,42 @@ const BLEND_TYPES = [
   "quadraxial",
 ] as const;
 type BlendType = (typeof BLEND_TYPES)[number];
+type ConditionalFormValues = { [k: string]: number | string };
 
 function App() {
-  const [resolution, setResolution] = useState(4);
-  const [blendType, setBlendType] = useState<BlendType>(BLEND_TYPES[0]);
-  const [conditionalFormValues, setConditionalFormValues] = useState<{
-    [k: string]: number | string;
-  }>({});
+  const savedJSON = localStorage.getItem("latest");
+  let savedBlendType: BlendType | undefined = undefined;
+  let savedResolution: number | undefined = undefined;
+  let savedConditionalFormValues: ConditionalFormValues | undefined = undefined;
+  if (savedJSON) {
+    const saved = JSON.parse(savedJSON) as {
+      blendType: BlendType;
+      resolution: number;
+      conditionalFormValues: ConditionalFormValues;
+    };
+    savedBlendType = saved.blendType;
+    savedResolution = saved.resolution;
+    savedConditionalFormValues = saved.conditionalFormValues;
+  }
+
+  const [blendType, setBlendType] = useState<BlendType>(
+    savedBlendType || BLEND_TYPES[0]
+  );
+  const [resolution, setResolution] = useState(savedResolution || 4);
+  const [conditionalFormValues, setConditionalFormValues] =
+    useState<ConditionalFormValues>(
+      (savedConditionalFormValues || {}) as ConditionalFormValues
+    );
+
+  useEffect(
+    () =>
+      localStorage.setItem(
+        "latest",
+        JSON.stringify({ blendType, resolution, conditionalFormValues })
+      ),
+    [blendType, resolution, conditionalFormValues]
+  );
+
   return (
     <div id="main-container">
       <div id="main-grid">
@@ -37,6 +66,7 @@ function App() {
             id="blend-type"
             label="Type"
             values={BLEND_TYPES}
+            selectedValue={blendType}
             onChange={(v) => setBlendType(v as BlendType)}
           />
           <NumericInput
@@ -49,16 +79,28 @@ function App() {
           />
           <hr />
           {blendType == "triaxial" && (
-            <TriaxialBlendForm onChange={setConditionalFormValues} />
+            <TriaxialBlendForm
+              values={conditionalFormValues}
+              onChange={setConditionalFormValues}
+            />
           )}
           {blendType == "tetrahedral" && (
-            <TetrahedralBlendForm onChange={setConditionalFormValues} />
+            <TetrahedralBlendForm
+              values={conditionalFormValues}
+              onChange={setConditionalFormValues}
+            />
           )}
           {blendType == "bilinear" && (
-            <BilinearBlendForm onChange={setConditionalFormValues} />
+            <BilinearBlendForm
+              values={conditionalFormValues}
+              onChange={setConditionalFormValues}
+            />
           )}
           {blendType == "quadraxial" && (
-            <QuadraxialBlendForm onChange={setConditionalFormValues} />
+            <QuadraxialBlendForm
+              values={conditionalFormValues}
+              onChange={setConditionalFormValues}
+            />
           )}
         </form>
         <hr />

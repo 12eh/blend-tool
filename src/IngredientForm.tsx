@@ -4,20 +4,23 @@ import { NumericInput } from "./NumericInput";
 
 type Props = {
   id: string;
-  defaultColor: string;
-  onChange: (newValues: { [k: string]: string | number }) => void;
+  values: FormValues;
+  onChange: (newValues: FormValues) => void;
 };
 
+type FormValues = { [k: string]: string | number };
+
 export function IngredientForm(props: Props): ReactElement<Props> {
-  const { id, defaultColor, onChange } = props;
+  const { id, onChange } = props;
   const labelKey = `label${id}`;
   const colorKey = `color${id}`;
   const minKey = `min${id}`;
-  const [values, setValues] = useState({
+  const defaults = {
     [labelKey]: `Ingredient ${id}`,
-    [colorKey]: defaultColor,
+    [colorKey]: "ffffff",
     [minKey]: 0,
-  });
+  };
+  const [values, setValues] = useState({ ...defaults, ...props.values });
 
   useEffect(() => onChange(values), [values]);
 

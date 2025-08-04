@@ -19,12 +19,30 @@ const defaultFormValues = {
 };
 type FormValues = typeof defaultFormValues;
 type FormProps = {
+  values: Partial<FormValues>;
   onChange: (newValues: FormValues) => void;
 };
 
 export function QuadraxialBlendForm(props: FormProps): ReactElement<FormProps> {
   const { onChange } = props;
-  const [values, setValues] = useState<FormValues>(defaultFormValues);
+  const [values, setValues] = useState<FormValues>({
+    ...defaultFormValues,
+    ...props.values,
+  });
+  const {
+    minA,
+    minB,
+    minC,
+    minD,
+    labelA,
+    labelB,
+    labelC,
+    labelD,
+    colorA,
+    colorB,
+    colorC,
+    colorD,
+  } = values;
 
   useEffect(() => onChange(values), [onChange, values]);
 
@@ -33,28 +51,28 @@ export function QuadraxialBlendForm(props: FormProps): ReactElement<FormProps> {
       <div className="column-one form-area">
         <IngredientForm
           id="A"
-          defaultColor="00ffff"
+          values={{ labelA, colorA, minA }}
           onChange={(v) => setValues({ ...values, ...v })}
         />
       </div>
       <div className="column-two form-area">
         <IngredientForm
           id="B"
-          defaultColor="ff00ff"
+          values={{ labelB, colorB, minB }}
           onChange={(v) => setValues({ ...values, ...v })}
         />
       </div>
       <div className="column-three form-area">
         <IngredientForm
           id="C"
-          defaultColor="ffff00"
+          values={{ labelC, colorC, minC }}
           onChange={(v) => setValues({ ...values, ...v })}
         />
       </div>
       <div className="column-four form-area">
         <IngredientForm
           id="D"
-          defaultColor="000000"
+          values={{ labelD, colorD, minD }}
           onChange={(v) => setValues({ ...values, ...v })}
         />
       </div>

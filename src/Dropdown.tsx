@@ -4,6 +4,7 @@ type Props = {
   id: string;
   label: string;
   values: string[] | readonly string[];
+  selectedValue: string;
   onChange: (newValue: string) => void;
   min?: number;
   max?: number;
@@ -11,8 +12,8 @@ type Props = {
 };
 
 export function Dropdown(props: Props): ReactElement<Props> {
-  const { id, label, values, onChange } = props;
-  const [value, setValue] = useState(values[0]);
+  const { id, label, values, selectedValue, onChange } = props;
+  const [value, setValue] = useState(selectedValue);
 
   return (
     <>

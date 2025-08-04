@@ -16,12 +16,18 @@ const defaultFormValues = {
 };
 type FormValues = typeof defaultFormValues;
 type FormProps = {
+  values: Partial<FormValues>;
   onChange: (newValues: FormValues) => void;
 };
 
 export function TriaxialBlendForm(props: FormProps): ReactElement<FormProps> {
   const { onChange } = props;
-  const [values, setValues] = useState<FormValues>(defaultFormValues);
+  const [values, setValues] = useState<FormValues>({
+    ...defaultFormValues,
+    ...props.values,
+  });
+  const { minA, minB, minC, labelA, labelB, labelC, colorA, colorB, colorC } =
+    values;
 
   useEffect(() => onChange(values), [onChange, values]);
 
@@ -30,21 +36,21 @@ export function TriaxialBlendForm(props: FormProps): ReactElement<FormProps> {
       <div className="column-one form-area">
         <IngredientForm
           id="A"
-          defaultColor="00ffff"
+          values={{ labelA, colorA, minA }}
           onChange={(v) => setValues({ ...values, ...v })}
         />
       </div>
       <div className="column-two form-area">
         <IngredientForm
           id="B"
-          defaultColor="ff00ff"
+          values={{ labelB, colorB, minB }}
           onChange={(v) => setValues({ ...values, ...v })}
         />
       </div>
       <div className="column-three form-area">
         <IngredientForm
           id="C"
-          defaultColor="ffff00"
+          values={{ labelC, colorC, minC }}
           onChange={(v) => setValues({ ...values, ...v })}
         />
       </div>
